@@ -6,6 +6,7 @@ import asyncio
 import sys
 import os
 
+#newline
 silent = False
 if len(sys.argv) > 1 and sys.argv[1] == "silent": # This will prevent the bot from printing all of the data on the first scrape
     silent = True # useful if you're debugging and don't want to spam the server
