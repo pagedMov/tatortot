@@ -20,6 +20,18 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 known_projects = []
 
+def writelog(string,level):
+    levels = {
+        "1": "[STATUS] ",
+        "2": "[WARNING] ",
+        "3": "[ERROR] "
+    }
+    level = levels[level]
+    with open("log.txt", "a") as log:
+        log.write(level + string + "\n")
+    print(level + string)
+
+
 def update_projects(new_projects):
     """
     This function updates the list of known projects.
@@ -31,10 +43,12 @@ def update_projects(new_projects):
     for project in known_projects:
         if project not in new_projects:
             known_projects.remove(project)
+            writelog(f"Removed project {project['name']}", "1")
 
     for project in new_projects:
         if project not in known_projects:
             known_projects.append(project)
+            writelog(f"Added project {project['name']}", "1")
 
 
 async def read_scrape_output(channel_id):
@@ -61,7 +75,7 @@ async def read_scrape_output(channel_id):
 
     channel = bot.get_channel(channel_id)
     if not channel:
-        print("No channel found")
+        writelog("No channel found", "3")
         return
 
     while True:
@@ -90,15 +104,14 @@ Pay: {project_info["pay"]}\n
 Tasks: {project_info["numTasks"]}\n
                 """
                 projects_str += "```\n"
-            print(projects_str)
             update_projects(projects_info)
             if projects_str:
                 await channel.send("New high-paying projects: \n" + projects_str)
             else:
-                print("no new projects")
+                writelog("No new projects.", "1")
 
     rc = await process.wait() # Don't listen to your LSP server's lies; this code is reachable if the script crashes.
-    print(f'Web scraping process exited with return code {rc}')
+    writelog(f'Web scraping process exited with return code {rc}', "3")
 
 @bot.event
 async def on_ready():
@@ -108,7 +121,7 @@ async def on_ready():
     1. Print the bot's name and ID when it logs in
     2. Create an endless task that writes notifications to the server using output from scrapetable.py
     """
-    print(f'Logged in as {bot.user.name} ({bot.user.id})')
+    writelog(f'Logged in as {bot.user.name} ({bot.user.id})', "1")
     bot.loop.create_task(read_scrape_output(channel_id))
 
 @bot.command()
