@@ -101,7 +101,7 @@ def scrapetable():
     3. The login interval is set to be between 3600 seconds and 7200 seconds, or 1-2 hours
     4. The refresh interval is 1-5 minutes
     5. Login to the website
-    6. Loop endlessly, compare the current time to the previous login time; if the elapsed time is greater than the login interval, then close the session and login again, randomizing the interval again.
+    6. Loop endlessly, compare the current time to the previous login time; if the elapsed time is greater than the login interval, then close the session and login again, while randomizing the interval again.
     7. Sleep for refresh_interval number of seconds, then randomize the interval again upon waking
     """
     session = requests.Session()
