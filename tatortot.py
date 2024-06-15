@@ -3,12 +3,17 @@ from discord.ext import commands
 import subprocess
 import json
 import asyncio
+import sys
+
+silent = False
+if len(sys.argv) > 1 and sys.argv[1] == "silent": # This will prevent the bot from printing all of the data on the first scrape
+    silent = True # useful if you're debugging and don't want to spam the server
 
 with open('creds.json', 'r') as file: # get channel id from credentials file
     creds = json.load(file)
     BOT_TOKEN = creds["BOT_TOKEN"]
-    channel_id = creds["channelid"]
-    #channel_id = creds["debugid"] # channel i use for debugging
+    #channel_id = creds["channelid"]
+    channel_id = creds["debugid"] # channel i use for debugging
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -47,6 +52,7 @@ async def read_scrape_output(channel_id):
         v. send the constructed string to the channel
         vi. if there is no new info, just print "no new projects" to the console as stderr debug output
     """
+    global silent
     process = await asyncio.create_subprocess_exec(
         'python', 'scrapetable.py',
         stdout=subprocess.PIPE,
@@ -63,6 +69,10 @@ async def read_scrape_output(channel_id):
         if output:
             projects_info = json.loads(output.decode().strip())
             projects_str = ""
+            if silent:
+                update_projects(projects_info) # if silent is True, then update the known_projects list *before* printing the data
+                silent = False # then set silent to False. This prevents the bot from printing all of the data on the first run
+
             for project_info in projects_info:
                 found = False
                 for dict in known_projects:
