@@ -4,6 +4,7 @@ import subprocess
 import json
 import asyncio
 import sys
+import os
 
 silent = False
 if len(sys.argv) > 1 and sys.argv[1] == "silent": # This will prevent the bot from printing all of the data on the first scrape
@@ -12,13 +13,17 @@ if len(sys.argv) > 1 and sys.argv[1] == "silent": # This will prevent the bot fr
 with open('creds.json', 'r') as file: # get channel id from credentials file
     creds = json.load(file)
     BOT_TOKEN = creds["BOT_TOKEN"]
-    #channel_id = creds["channelid"]
-    channel_id = creds["debugid"] # channel i use for debugging
+    channel_id = creds["channelid"]
+    #channel_id = creds["debugid"] # channel i use for debugging
 
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 known_projects = []
+
+if os.path.exists("./log.txt"): # insert a newline whenever the bot starts, makes the log more readable
+    with open("log.txt", "a") as log:
+        log.write("\n")
 
 def writelog(string,level):
     levels = {
