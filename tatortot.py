@@ -155,5 +155,4 @@ Tasks: {project_info["numTasks"]}\n
     await channel.send("Current high-paying projects:" + projects_str)
 
 
-t commit
 bot.run(BOT_TOKEN) # This starts the bot
