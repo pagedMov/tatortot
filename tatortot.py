@@ -130,11 +130,15 @@ async def getprojects(ctx):
     This is a bot command. You can call !getprojects to run this function from the server.
     It constructs strings the same way that read_scrape_output() does.
     """
+    invoker = ctx.author.name
     channel = bot.get_channel(channel_id)
+    writelog(f"Command getprojects invoked by {invoker}", "1")
     if not known_projects:
         await channel.send("No high-paying projects currently.")
+    log_str = ""
     projects_str = ""
     for project_info in known_projects:
+        writelog(f"Sent project: {project_info['name']}", "1")
         projects_str += "```\n"
         projects_str += f"""
 Name: {project_info["name"]}\n
