@@ -68,7 +68,7 @@ async def read_scrape_output(channel_id):
     """
     global silent
     process = await asyncio.create_subprocess_exec(
-        'python', 'scrapetable.py',
+        'python3', 'scrapetable.py',
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
