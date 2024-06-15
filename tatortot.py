@@ -6,7 +6,6 @@ import asyncio
 import sys
 import os
 
-#newline
 silent = False
 if len(sys.argv) > 1 and sys.argv[1] == "silent": # This will prevent the bot from printing all of the data on the first scrape
     silent = True # useful if you're debugging and don't want to spam the server
@@ -156,4 +155,5 @@ Tasks: {project_info["numTasks"]}\n
     await channel.send("Current high-paying projects:" + projects_str)
 
 
+t commit
 bot.run(BOT_TOKEN) # This starts the bot
