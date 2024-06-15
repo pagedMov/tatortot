@@ -29,7 +29,7 @@ def extract_payrate(pay_string):
 
 def login(session):
     """
-    This function logs into dataannotation using my login credentials
+    This function logs into the url at login_url using my login credentials
 
     1. Gets the html for the login page using an HTTP GET request with the session argument
     2. Finds the authenticity token in the page
