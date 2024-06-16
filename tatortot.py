@@ -106,7 +106,7 @@ async def read_scrape_output(channel_id):
                 projects_str += f"""
 Name: {project_info["name"]}\n
 Pay: {project_info["pay"]}\n
-Tasks: {project_info["numTasks"]}\n
+Tasks: {project_info["numTasks"]}
                 """
                 projects_str += "```\n"
             update_projects(projects_info)
