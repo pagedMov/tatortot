@@ -78,7 +78,7 @@ def scrape_projects(session):
         for project in projects:
             pay = extract_payrate(project["pay"])
             num_tasks = int(project["availableTasksFor"])
-            if pay and pay >= 32.50 and num_tasks > 10:
+            if pay and pay >= 32.50 and num_tasks > 20:
                 project_info = {"name": project["name"],
                                 "id": project["id"],
                                 "pay": project["pay"],
